@@ -46,7 +46,7 @@ contract Aipodo /* is ERC20 */{
         for (uint i=0; i< _parents.length; i++) {
             require (item_list[_parents[i]].hash != 0, 'Parent not found');
             item_list[_hash].parents[i] = _parents[i];
-            full_price = full_price + item_list[_parents[i]].price;
+            full_price = full_price + item_list[_parents[i]].full_price;
         }
         item_list[_hash].price = _price;
         item_list[_hash].full_price = full_price;
