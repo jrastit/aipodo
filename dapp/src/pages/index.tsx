@@ -42,6 +42,7 @@ import { useJsonRpc } from "../contexts/JsonRpcContext";
 import { useChainData } from "../contexts/ChainDataContext";
 import Icon from "../components/Icon";
 import OriginSimulationDropdown from "../components/OriginSimulationDropdown";
+import Dataset from "./Dataset";
 
 // Normal import does not work here
 const { version } = require("@walletconnect/sign-client/package.json");
@@ -493,27 +494,38 @@ const Home: NextPage = () => {
         </SButtonContainer>
       </SLanding>
     ) : (
-      <SAccountsContainer>
-        <h3>Accounts</h3>
-        <SAccounts>
-          {accounts.map((account) => {
-            const [namespace, reference, address] = account.split(":");
-            const chainId = `${namespace}:${reference}`;
-            return (
-              <Blockchain
-                key={account}
-                active
-                chainData={chainData}
-                fetching={isFetchingBalances}
-                address={address}
-                chainId={chainId}
-                balances={balances}
-                actions={getBlockchainActions(chainId)}
-              />
-            );
-          })}
-        </SAccounts>
-      </SAccountsContainer>
+        <table>
+            <tbody>
+            <tr>
+                <td>
+                    <SAccountsContainer>
+                        <h3>Accounts</h3>
+                        <SAccounts>
+                            {accounts.map((account) => {
+                                const [namespace, reference, address] = account.split(":");
+                                const chainId = `${namespace}:${reference}`;
+                                return (
+                                    <Blockchain
+                                        key={account}
+                                        active
+                                        chainData={chainData}
+                                        fetching={isFetchingBalances}
+                                        address={address}
+                                        chainId={chainId}
+                                        balances={balances}
+                                        actions={getBlockchainActions(chainId)}
+                                    />
+                                );
+                            })}
+                        </SAccounts>
+                    </SAccountsContainer>
+                </td>
+                <td valign="top">
+                    <Dataset/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     );
   };
 
