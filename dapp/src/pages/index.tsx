@@ -131,6 +131,13 @@ const Home: NextPage = () => {
 
   const getEthereumActions = (): AccountAction[] => {
     const actions = {
+      [DEFAULT_EIP155_METHODS.AIPODO_ADD_ITEM]: {
+        method: DEFAULT_EIP155_METHODS.AIPODO_ADD_ITEM,
+        callback: async (chainId: string, address: string) => {
+          openRequestModal();
+          await ethereumRpc.aipodoAddItem(chainId, address);
+        },
+      },
       [DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION]: {
         method: DEFAULT_EIP155_METHODS.ETH_SEND_TRANSACTION,
         callback: async (chainId: string, address: string) => {

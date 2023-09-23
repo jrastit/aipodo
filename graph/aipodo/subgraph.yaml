@@ -1,0 +1,30 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Aipodo
+    network: mumbai
+    source:
+      address: "0xe68DD1328396bcf2A457C12c51eF2a977B828b83"
+      abi: Aipodo
+      startBlock: 40436302
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - ItemBuy
+        - ItemCreated
+        - ItemPay
+      abis:
+        - name: Aipodo
+          file: ./abis/Aipodo.json
+      eventHandlers:
+        - event: ItemBuy(uint256,uint256,address)
+          handler: handleItemBuy
+        - event: ItemCreated(uint256,uint256,uint256[])
+          handler: handleItemCreated
+        - event: ItemPay(uint256,uint256)
+          handler: handleItemPay
+      file: ./src/aipodo.ts
