@@ -60,13 +60,14 @@ const Dataset: FunctionComponent = () => {
     const {
         data,
         error,
+        isLoading,
         isError,
         write,
 
     } = useContractWrite(config)
 
     const {
-        isLoading,
+        isLoading: isWaitTxLoading,
         isSuccess,
     } = useWaitForTransaction({
         hash: data?.hash,
@@ -98,6 +99,7 @@ const Dataset: FunctionComponent = () => {
             if (write) {
                 console.log('publish');
                 write();
+                setStep(Steps.publishing);
             } else {
                 console.log('cannot publish, write is undefined');
             }
@@ -110,7 +112,9 @@ const Dataset: FunctionComponent = () => {
         prepareError,
         data,
         isError,
-        error
+        error,
+        isLoading,
+        isWaitTxLoading
     });
 
     return isConnected && (
