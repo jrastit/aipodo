@@ -1,16 +1,19 @@
 import {FunctionComponent, useState} from "react";
-import {useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction} from "wagmi";
+import {useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction} from "wagmi";
 import AipodoContract from "../../../smartcontract/artifacts/Aipodo.json";
 import {contractAddressPerChain} from "./DatasetCreate.tsx";
 import Button from "./components/Button.tsx";
 import Loader from "./components/Loader.tsx";
+import {ItemBuy} from "./DatasetList.tsx";
 
 interface BuyButtonProps {
     commitHash: string,
     price: string,
+    itemBuys: ItemBuy[],
 }
 
-const BuyButton: FunctionComponent<BuyButtonProps> = ({commitHash, price}) => {
+const BuyButton: FunctionComponent<BuyButtonProps> = ({commitHash, price, itemBuys}) => {
+    const {address} = useAccount();
     const {chain} = useNetwork();
 
     const [buying, setBuying] = useState(false);
@@ -56,30 +59,39 @@ const BuyButton: FunctionComponent<BuyButtonProps> = ({commitHash, price}) => {
         }
     };
 
-    return (
-        <>
-            {!buying &&
-                <Button onClick={handleBuy}>Buy dataset</Button>}
-            {(buying && isLoading) && (
-                <>
-                    <Loader/>
-                    <div>Publishing dataset ownership transaction...</div>
-                </>
-            )}
-            {(buying && !isLoading && (isPrepareError || isError)) && (
-                <div>Error: {prepareError ? prepareError.shortMessage : error?.message}</div>
-            )}
-            {(buying && !isLoading && !(isPrepareError || isError || isSuccess)) && (
-                <>
-                    <Loader/>
-                    <div>Dataset buy transaction validation...</div>
-                </>
-            )}
-            {(buying && !isLoading && isSuccess) && (
-                <div>Dataset buyed!</div>
-            )}
-        </>
-    );
+    const hasBuyed = (itemBuys ?? []).filter(({hash, buyer}) => {
+        return hash === commitHash && buyer?.toLowerCase() === address?.toLowerCase()
+    }).length > 0;
+
+    if (hasBuyed) {
+        return (<div>Dataset buyed!</div>);
+    } else {
+        return (
+            <>
+                {!buying &&
+                    <Button onClick={handleBuy}>Buy dataset</Button>}
+                {(buying && isLoading) && (
+                    <>
+                        <Loader/>
+                        <div>Publishing dataset ownership transaction...</div>
+                    </>
+                )}
+                {(buying && !isLoading && (isPrepareError || isError)) && (
+                    <div>Error: {prepareError ? prepareError.shortMessage : error?.message}</div>
+                )}
+                {(buying && !isLoading && !(isPrepareError || isError || isSuccess)) && (
+                    <>
+                        <Loader/>
+                        <div>Dataset buy transaction validation...</div>
+                    </>
+                )}
+                {(buying && !isLoading && isSuccess) && (
+                    <div>Dataset buyed!</div>
+                )}
+            </>
+        );
+
+    }
 }
 
 export default BuyButton;
