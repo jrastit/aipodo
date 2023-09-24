@@ -3,7 +3,7 @@ import Button from "./components/Button";
 import {SAccountsContainer, SContent} from "./components/app";
 import styled from "styled-components";
 import Loader from "./components/Loader";
-import {useAccount, useContractWrite, usePrepareContractWrite, useWaitForTransaction} from "wagmi";
+import {useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction} from "wagmi";
 import AipodoContract from '../../../smartcontract/artifacts/Aipodo.json';
 
 
@@ -14,6 +14,12 @@ const SBorder = styled.div`
   border: 2px solid red;
   box-shadow: 0 0 8px red;
 `;
+
+const contractAddressPerChain: Record<string, `0x${string}`> = {
+    '80001': '0xe68DD1328396bcf2A457C12c51eF2a977B828b83', // Polygon Mumbai
+    '5': '0x64B0d1d58947eAC33Ec6FC95A49c76408047043C', // goerli
+    '534351': '0x353232c1D794662B7f2199e851085D18DD0d042c', // Scroll Sepolia
+};
 
 export const StyledLabel = styled.label`
   display: block;
@@ -38,6 +44,7 @@ enum Steps {
 
 const Dataset: FunctionComponent = () => {
     const {isConnected} = useAccount();
+    const {chain} = useNetwork();
 
     const [step, setStep] = useState<Steps>(Steps.hashInput);
 
@@ -51,7 +58,7 @@ const Dataset: FunctionComponent = () => {
         isError: isPrepareError,
         isLoading: isPrepareLoading,
     } = usePrepareContractWrite({
-        address: '0x64B0d1d58947eAC33Ec6FC95A49c76408047043C',
+        address: contractAddressPerChain[`${chain?.id}`],
         abi: AipodoContract.abi,
         functionName: 'add_item',
         args: [`0x${commitHash}`, price, []],
@@ -76,7 +83,7 @@ const Dataset: FunctionComponent = () => {
         if (step === Steps.hashInput) {
             const starting = Date.now();
             setStep(Steps.descriptorFetching);
-            const fakeHash = 'f7b0081d6bd0e009fd6f0a6a333fb2e7db30357a';
+            const fakeHash = undefined; // 7b0081d6bd0e009fd6f0a6a333fb2e7db30357a';
             const result = await fetch(`https://api.github.com/search/commits?q=${fakeHash ?? commitHash}`);
             if (result.ok) {
                 const parsedResult = await result.json();
