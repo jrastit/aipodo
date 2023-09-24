@@ -40,6 +40,8 @@ const urlPerChain: Record<string, string> = {
     '44787': 'https://api.studio.thegraph.com/query/53641/aipodo-cello-alfajores/version/latest', // Cello Alfaro
 };
 
+const formatHash = (h: string) => BigInt(h).toString(16).padStart(40, '0');
+
 const DatasetList: FunctionComponent = () => {
     const {address} = useAccount();
     const {chain} = useNetwork();
@@ -106,11 +108,11 @@ const DatasetList: FunctionComponent = () => {
                                     <td style={{
                                         border: '1px solid black',
                                         borderCollapse: 'collapse',
-                                    }}>{hash}</td>
+                                    }}>{formatHash(hash)}</td>
                                     <td style={{
                                         border: '1px solid black',
                                         borderCollapse: 'collapse',
-                                    }}>{parents.map((p) => (<>{p}<br/></>))}</td>
+                                    }}>{parents.map((p) => (<>{formatHash(p)}<br/></>))}</td>
                                     <td style={{
                                         border: '1px solid black',
                                         borderCollapse: 'collapse',
