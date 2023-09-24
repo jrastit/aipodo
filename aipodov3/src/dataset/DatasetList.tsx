@@ -45,11 +45,12 @@ const DatasetList: FunctionComponent = () => {
     const {address} = useAccount();
     const {chain} = useNetwork();
 
-    const {data, loading, error, refetch} = useQuery<{ itemCreateds: ItemCreated[] }>(datasetQuery, {
+    const {data, loading, error, refetch, networkStatus} = useQuery<{ itemCreateds: ItemCreated[] }>(datasetQuery, {
         variables: {
             __chainUrl: urlPerChain[chain?.id ?? 'pouet'],
         },
         skip: !chain?.id,
+        notifyOnNetworkStatusChange: true,
     });
     useEffect(() => {
             if (chain?.id) {
@@ -62,28 +63,31 @@ const DatasetList: FunctionComponent = () => {
     const innerContent = () => {
         if (!chain?.id) {
             return 'Not connected';
-        } else if (loading) {
+        } else if (loading || networkStatus !== 7) {
             return <Loader/>;
         } else if (data) {
             return (
-                <table border={1}>
-                    <tbody>
-                    <tr>
-                        <th>Git commit hash</th>
-                        <th>Parents</th>
-                        <th>Price</th>
-                        <th>Owner</th>
-                    </tr>
-                    {data.itemCreateds.map(({id, hash, parents, full_price, owner}) => (
-                        <tr key={id}>
-                            <td>{hash}</td>
-                            <td>{parents.map((p) => (<>{p}<br/></>))}</td>
-                            <td>{full_price}</td>
-                            <td>{owner === address ? 'You' : owner}</td>
+                <>
+                    <table border={1}>
+                        <tbody>
+                        <tr>
+                            <th>Git commit hash</th>
+                            <th>Parents</th>
+                            <th>Price</th>
+                            <th>Owner</th>
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
+                        {data.itemCreateds.map(({id, hash, parents, full_price, owner}) => (
+                            <tr key={id}>
+                                <td>{hash}</td>
+                                <td>{parents.map((p) => (<>{p}<br/></>))}</td>
+                                <td>{full_price}</td>
+                                <td>{owner === address ? 'You' : owner}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                    <button onClick={() => refetch()}>Refresh</button>
+                </>
             );
         } else {
             return <div>{`Error occurred: ${error}`}</div>;
