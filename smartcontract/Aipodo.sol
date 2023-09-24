@@ -36,7 +36,17 @@ contract Aipodo /* is ERC20 */{
     mapping(uint256 => Item) private item_list;
     mapping(address => uint256[]) private owned_list;
     mapping(address => uint256) private balance_list;
+    mapping(address => string) private owner_proof;
+
     uint256[] public item_list_array;
+
+    function add_proof(string memory _proof) public {
+        owner_proof[msg.sender] = _proof;
+    }
+
+    function get_proof(address _owner) public view returns (string memory){
+        return owner_proof[_owner];
+    }
 
     function add_item(uint256 _hash, uint256 _price, uint256[] memory _parents) public {
         require (item_list[_hash].hash == 0, 'Item already present');

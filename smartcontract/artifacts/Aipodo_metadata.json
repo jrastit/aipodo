@@ -105,6 +105,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "_proof",
+						"type": "string"
+					}
+				],
+				"name": "add_proof",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "_hash",
 						"type": "uint256"
@@ -202,6 +215,25 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"name": "get_proof",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "",
 						"type": "uint256"
@@ -267,11 +299,11 @@
 	},
 	"sources": {
 		"smartcontract/Aipodo.sol": {
-			"keccak256": "0xdc8421a2cfe8270ef72dcbedc141487a382755e9c983cdcd1ae7fa157a1579ec",
+			"keccak256": "0xa97c4ede08fe58049b060b302f7603efd937a7fdaad09e0263c51adc47002d99",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://d6d14143bd5a0664f71ddb55fafa15211d4ee001f35b2222c76a43dff9223f90",
-				"dweb:/ipfs/QmTWBEY1wQAtjNoVKc3zoyQLAnSx9HtUr8HKK7nRvgYLwg"
+				"bzz-raw://01813183ccee1e8f6913070310a6da6324c191a8e9e873d47af92eff473822b3",
+				"dweb:/ipfs/QmUgh4fyAtfwmZB7KBQwZ7H3Ls3LFwXFVTtWpr87P9e8Cx"
 			]
 		}
 	},
