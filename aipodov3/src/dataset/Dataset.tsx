@@ -55,7 +55,7 @@ const Dataset: FunctionComponent = () => {
         abi: AipodoContract.abi,
         functionName: 'add_item',
         args: [`0x${commitHash}`, price, []],
-        enabled: step === Steps.descriptorFetched,
+        enabled: step === Steps.descriptorFetched || step === Steps.publishing,
     })
     const {
         data,
@@ -67,7 +67,6 @@ const Dataset: FunctionComponent = () => {
     } = useContractWrite(config)
 
     const {
-        isLoading: isWaitTxLoading,
         isSuccess,
     } = useWaitForTransaction({
         hash: data?.hash,
@@ -114,7 +113,6 @@ const Dataset: FunctionComponent = () => {
         isError,
         error,
         isLoading,
-        isWaitTxLoading
     });
 
     return isConnected && (
@@ -172,14 +170,20 @@ const Dataset: FunctionComponent = () => {
                                         {(step === Steps.publishing && isLoading) && (
                                             <>
                                                 <Loader/>
-                                                <div>Publishing...</div>
+                                                <div>Publishing dataset ownership transaction...</div>
                                             </>
                                         )}
                                         {(step === Steps.publishing && !isLoading && (isPrepareError || isError)) && (
                                             <div>Error: {prepareError ? prepareError.shortMessage : error?.message}</div>
                                         )}
-                                        {(step === Steps.publishing && !isLoading && !(isPrepareError || isError)) && (
-                                            <div>Dataset ownership published</div>
+                                        {(step === Steps.publishing && !isLoading && !(isPrepareError || isError || isSuccess)) && (
+                                            <>
+                                                <Loader/>
+                                                <div>Dataset ownership transaction validation...</div>
+                                            </>
+                                        )}
+                                        {(step === Steps.publishing && !isLoading && isSuccess) && (
+                                            <div>Dataset ownership transaction validated!</div>
                                         )}
                                     </td>
                                 </tr>
