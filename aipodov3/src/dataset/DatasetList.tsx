@@ -35,7 +35,6 @@ interface ItemCreated {
 }
 
 const urlPerChain: Record<string, string> = {
-    '80001': 'xxx', // Polygon Mumbai
     '5': 'https://api.studio.thegraph.com/query/53641/aipodo-goerli-2/version/latest', // goerli
     '534351': 'https://api.studio.thegraph.com/query/53641/aipodo-scroll-sepolia/version/latest', // Scroll Sepolia
     '44787': 'https://api.studio.thegraph.com/query/53641/aipodo-cello-alfajores/version/latest', // Cello Alfaro

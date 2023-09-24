@@ -1,6 +1,6 @@
 import {createWeb3Modal, defaultWagmiConfig} from '@web3modal/wagmi/react'
 import {WagmiConfig} from 'wagmi'
-import {goerli, mainnet, polygon, polygonMumbai, scrollSepolia, scrollTestnet, celoAlfajores} from 'wagmi/chains'
+import {goerli, mainnet, scrollSepolia, celoAlfajores} from 'wagmi/chains'
 import DatasetCreate from "./dataset/DatasetCreate.tsx";
 import GateFi from './gatefi/Gatefi'
 import Worldcoin from './service/Wordcoin';
@@ -12,7 +12,7 @@ import DatasetList from "./dataset/DatasetList.tsx";
 const projectId = 'adad6ddb068edeb3c80dccb1bf3e4673'
 
 // 2. Create wagmiConfig
-const chains = [mainnet, goerli, polygon, polygonMumbai, scrollSepolia, scrollTestnet, celoAlfajores]
+const chains = [mainnet, goerli, scrollSepolia, celoAlfajores]
 const wagmiConfig = defaultWagmiConfig({chains, projectId, appName: 'Web3Modal'})
 
 // 3. Create modal
