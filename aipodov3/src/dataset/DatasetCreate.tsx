@@ -17,8 +17,9 @@ const SBorder = styled.div`
 
 const contractAddressPerChain: Record<string, `0x${string}`> = {
     '80001': '0xe68DD1328396bcf2A457C12c51eF2a977B828b83', // Polygon Mumbai
-    '5': '0x64B0d1d58947eAC33Ec6FC95A49c76408047043C', // goerli
-    '534351': '0x353232c1D794662B7f2199e851085D18DD0d042c', // Scroll Sepolia
+    '5': '0xE50b034766E1475E2FF586dA35381F1C2C9aB8EE', // goerli
+    '534351': '0x92604A186DE35D9c1331596eE8d32c59f64A168F', // Scroll Sepolia
+    '44787': '0xFD240b2a6Eb348F131Fb5C4d893eB5c8426B042c', // Cello Alfaro
 };
 
 export const StyledLabel = styled.label`
@@ -42,14 +43,14 @@ enum Steps {
     publishing = 'publishing',
 }
 
-const Dataset: FunctionComponent = () => {
+const DatasetCreate: FunctionComponent = () => {
     const {isConnected} = useAccount();
     const {chain} = useNetwork();
 
     const [step, setStep] = useState<Steps>(Steps.hashInput);
 
     const [commitHash, setCommitHash] = useState('');
-    const [descriptor, setDescriptor] = useState('');
+    const [parents, setParents] = useState<string[]>([]);
     const [price, setPrice] = useState('');
 
     const {
@@ -88,11 +89,11 @@ const Dataset: FunctionComponent = () => {
             if (result.ok) {
                 const parsedResult = await result.json();
                 const repository = parsedResult.items[0].repository.full_name;
-                const result2 = await fetch(`https://raw.githubusercontent.com/${repository}/${fakeHash ?? commitHash}/dapp/package.json`);
+                const result2 = await fetch(`https://raw.githubusercontent.com/${repository}/${fakeHash ?? commitHash}/aipodo.json`);
                 if (result2.ok) {
                     const descriptor = await result2.json();
                     await new Promise((resolve) => setTimeout(resolve, Math.max(0, 500 + Date.now() - starting)));
-                    setDescriptor(descriptor.name);
+                    setParents(descriptor.parents);
                     setStep(Steps.descriptorFetched);
                 }
             }
@@ -112,20 +113,10 @@ const Dataset: FunctionComponent = () => {
         }
     };
 
-    console.log({
-        isPrepareLoading,
-        isPrepareError,
-        prepareError,
-        data,
-        isError,
-        error,
-        isLoading,
-    });
-
     return isConnected && (
         <SContent>
             <SAccountsContainer>
-                <h3>Dataset</h3>
+                <h3>Publish Dataset ownership</h3>
                 <SBorder>
                     <table>
                         <tbody>
@@ -155,10 +146,10 @@ const Dataset: FunctionComponent = () => {
                             <>
                                 <tr>
                                     <td>
-                                        <StyledLabel>Dataset descriptor</StyledLabel>
+                                        <StyledLabel>Dataset parents</StyledLabel>
                                     </td>
                                     <td>
-                                        {descriptor}
+                                        {parents.map((parent) => <>{parent}<br/></>)}
                                     </td>
                                 </tr>
                                 <tr>
@@ -204,4 +195,4 @@ const Dataset: FunctionComponent = () => {
     );
 };
 
-export default Dataset;
+export default DatasetCreate;

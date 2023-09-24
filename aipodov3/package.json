@@ -10,9 +10,14 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.4",
     "@gatefi/js-sdk": "^0.12.2",
+    "@graphprotocol/client-cli": "^3.0.0",
+    "@tanstack/react-query": "^4.35.3",
     "@web3modal/wagmi": "^3.0.0-beta.4",
     "@worldcoin/idkit": "^0.5.1",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
