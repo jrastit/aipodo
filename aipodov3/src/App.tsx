@@ -11,6 +11,8 @@ import {InjectedConnector} from 'wagmi/connectors/injected'
 import {WalletConnectConnector} from 'wagmi/connectors/walletConnect'
 import ConnectButton from "./ConnectButton";
 import Dataset from "./dataset/Dataset";
+import GateFi from './gatefi/Gatefi'
+
 
 // 1. Get projectId
 const projectId = 'adad6ddb068edeb3c80dccb1bf3e4673'
@@ -35,10 +37,16 @@ const wagmiConfig = createConfig({
 createWeb3Modal({wagmiConfig, projectId, chains})
 
 function App() {
+
+    
+
     return (
         <WagmiConfig config={wagmiConfig}>
+            <div>
             <img src="/logo.jpg"/>
-            <ConnectButton/>
+            </div>
+            <div><ConnectButton/></div>
+            <GateFi/>
             <Dataset/>
         </WagmiConfig>
     )

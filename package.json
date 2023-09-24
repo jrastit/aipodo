@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@gatefi/js-sdk": "^0.12.2"
+  }
+}
