@@ -63,7 +63,7 @@ const DatasetCreate: FunctionComponent = () => {
         address: contractAddressPerChain[`${chain?.id}`],
         abi: AipodoContract.abi,
         functionName: 'add_item',
-        args: [`0x${commitHash}`, price, []],
+        args: [`0x${commitHash}`, price, parents.map((p) => `0x${p}`)],
         enabled: step === Steps.descriptorFetched || step === Steps.publishing,
     })
     const {
