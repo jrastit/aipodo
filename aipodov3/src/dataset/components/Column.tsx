@@ -46,7 +46,7 @@ Column.propTypes = {
 
 Column.defaultProps = {
   spanHeight: false,
-  maxWidth: 600,
+  maxWidth: 1920,
   center: false,
 };
 

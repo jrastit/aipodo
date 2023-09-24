@@ -11,9 +11,11 @@ const SBorder = styled.div`
   border-radius: 8px;
   padding: 8px;
   margin: 5px 0;
-  border: 2px solid red;
-  box-shadow: 0 0 8px red;
+  border: 2px solid #0066ff;
+  box-shadow: 0 0 8px #0066ff;
 `;
+
+// ffcc00
 
 const contractAddressPerChain: Record<string, `0x${string}`> = {
     '80001': '0xe68DD1328396bcf2A457C12c51eF2a977B828b83', // Polygon Mumbai
@@ -115,9 +117,9 @@ const DatasetCreate: FunctionComponent = () => {
 
     return isConnected && (
         <SContent>
-            <SAccountsContainer>
-                <h3>Publish Dataset ownership</h3>
-                <SBorder>
+            <SBorder>
+                <SAccountsContainer>
+                    <h3>Publish Dataset ownership</h3>
                     <table>
                         <tbody>
                         <tr>
@@ -189,8 +191,16 @@ const DatasetCreate: FunctionComponent = () => {
                         )}
                         </tbody>
                     </table>
-                </SBorder>
-            </SAccountsContainer>
+                    <br/>
+                    <button onClick={() => {
+                        setStep(Steps.hashInput);
+                        setCommitHash('');
+                        setParents([]);
+                        setPrice('');
+                    }}>Reset
+                    </button>
+                </SAccountsContainer>
+            </SBorder>
         </SContent>
     );
 };

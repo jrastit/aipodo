@@ -36,10 +36,7 @@ export const SConnectButton = styled(Button as any)`
 
 export const SAccountsContainer = styled(SLanding as any)`
   height: 100%;
-  padding-bottom: 30px;
-  & h3 {
-    padding-top: 30px;
-  }
+  padding-bottom: 10px;
 `;
 
 export const SToggleContainer = styled.div`

@@ -10,8 +10,8 @@ const SBorder = styled.div`
   border-radius: 8px;
   padding: 8px;
   margin: 5px 0;
-  border: 2px solid red;
-  box-shadow: 0 0 8px red;
+  border: 2px solid #00ff99;
+  box-shadow: 0 0 8px #00ff99;
 `;
 
 const datasetQuery = gql`
@@ -68,24 +68,64 @@ const DatasetList: FunctionComponent = () => {
         } else if (data) {
             return (
                 <>
-                    <table border={1}>
-                        <tbody>
-                        <tr>
-                            <th>Git commit hash</th>
-                            <th>Parents</th>
-                            <th>Price</th>
-                            <th>Owner</th>
+                    <table style={{
+                        border: '1px solid black',
+                        borderCollapse: 'collapse',
+                    }}>
+                        <tbody style={{
+                            border: '1px solid black',
+                            borderCollapse: 'collapse',
+                        }}>
+                        <tr style={{
+                            border: '1px solid black',
+                            borderCollapse: 'collapse',
+                        }}>
+                            <th style={{
+                                border: '1px solid black',
+                                borderCollapse: 'collapse',
+                            }}>Git commit hash</th>
+                            <th style={{
+                                border: '1px solid black',
+                                borderCollapse: 'collapse',
+                            }}>Parents</th>
+                            <th style={{
+                                border: '1px solid black',
+                                borderCollapse: 'collapse',
+                            }}>Price</th>
+                            <th style={{
+                                border: '1px solid black',
+                                borderCollapse: 'collapse',
+                            }}>Owner</th>
                         </tr>
-                        {data.itemCreateds.map(({id, hash, parents, full_price, owner}) => (
-                            <tr key={id}>
-                                <td>{hash}</td>
-                                <td>{parents.map((p) => (<>{p}<br/></>))}</td>
-                                <td>{full_price}</td>
-                                <td>{owner === address ? 'You' : owner}</td>
-                            </tr>
-                        ))}
+                        {data.itemCreateds.map(({id, hash, parents, full_price, owner}) => {
+                            console.log({owner, address});
+                            return (
+                                <tr key={id} style={{
+                                    border: '1px solid black',
+                                    borderCollapse: 'collapse',
+                                }}>
+                                    <td style={{
+                                        border: '1px solid black',
+                                        borderCollapse: 'collapse',
+                                    }}>{hash}</td>
+                                    <td style={{
+                                        border: '1px solid black',
+                                        borderCollapse: 'collapse',
+                                    }}>{parents.map((p) => (<>{p}<br/></>))}</td>
+                                    <td style={{
+                                        border: '1px solid black',
+                                        borderCollapse: 'collapse',
+                                    }}>{full_price}</td>
+                                    <td style={{
+                                        border: '1px solid black',
+                                        borderCollapse: 'collapse',
+                                    }}>{owner?.toLowerCase() === address?.toLowerCase() ? 'You' : owner}</td>
+                                </tr>
+                            );
+                        })}
                         </tbody>
                     </table>
+                    <br/>
                     <button onClick={() => refetch()}>Refresh</button>
                 </>
             );
@@ -96,12 +136,12 @@ const DatasetList: FunctionComponent = () => {
 
     return (
         <SContent>
-            <SAccountsContainer>
-                <h3>Available dataset</h3>
-                <SBorder>
+            <SBorder>
+                <SAccountsContainer>
+                    <h3>Available dataset</h3>
                     {innerContent()}
-                </SBorder>
-            </SAccountsContainer>
+                </SAccountsContainer>
+            </SBorder>
         </SContent>
     );
 
