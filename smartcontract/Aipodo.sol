@@ -14,7 +14,7 @@ struct Item {
 
 contract Aipodo /* is ERC20 */{
 
-    event ItemCreated(uint256 hash, uint256 full_price, uint256[] parents);
+    event ItemCreated(uint256 hash, uint256 full_price, address owner, uint256[] parents);
     event ItemBuy(uint256 hash, uint256 price, address buyer);
     event ItemPay(uint256 hash, uint256 amount);
 
@@ -62,7 +62,7 @@ contract Aipodo /* is ERC20 */{
         item_list[_hash].full_price = full_price;
         item_list[_hash].owner = msg.sender;
         item_list_array.push(_hash);
-        emit ItemCreated(_hash, full_price, _parents);
+        emit ItemCreated(_hash, full_price, msg.sender, _parents);
     }
 
     function get_price(uint256 _hash) public view returns (uint256) {

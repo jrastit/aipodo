@@ -52,6 +52,12 @@
 					},
 					{
 						"indexed": false,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
 						"internalType": "uint256[]",
 						"name": "parents",
 						"type": "uint256[]"
@@ -299,11 +305,11 @@
 	},
 	"sources": {
 		"smartcontract/Aipodo.sol": {
-			"keccak256": "0xa97c4ede08fe58049b060b302f7603efd937a7fdaad09e0263c51adc47002d99",
+			"keccak256": "0x88392ef84b0b0abff877c1b5c6231baee5b938b6d12a2e6ad39e7900aa94fc35",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://01813183ccee1e8f6913070310a6da6324c191a8e9e873d47af92eff473822b3",
-				"dweb:/ipfs/QmUgh4fyAtfwmZB7KBQwZ7H3Ls3LFwXFVTtWpr87P9e8Cx"
+				"bzz-raw://ce66b2f4641b0271db0b01a19fef76fd27dfb2e1220492eabc1e42f4e5c77262",
+				"dweb:/ipfs/QmPhd9j7Sd6u4kkZiJeyv7knYge4mSmF3xxFepPRPs5uDW"
 			]
 		}
 	},
