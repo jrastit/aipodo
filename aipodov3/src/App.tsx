@@ -3,6 +3,7 @@ import {WagmiConfig} from 'wagmi'
 import {goerli, mainnet, polygon, polygonMumbai, scrollSepolia, scrollTestnet} from 'wagmi/chains'
 import Dataset from "./dataset/Dataset";
 import GateFi from './gatefi/Gatefi'
+import Worldcoin from './service/Wordcoin';
 
 
 // 1. Get projectId
@@ -44,6 +45,7 @@ function App() {
                 </div>
                 <div>
                     <Dataset/>
+                    <Worldcoin/>
                 </div>
             </div>
         </WagmiConfig>
