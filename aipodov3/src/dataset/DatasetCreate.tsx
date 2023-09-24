@@ -17,7 +17,7 @@ const SBorder = styled.div`
 
 // ffcc00
 
-const contractAddressPerChain: Record<string, `0x${string}`> = {
+export const contractAddressPerChain: Record<string, `0x${string}`> = {
     '5': '0xE50b034766E1475E2FF586dA35381F1C2C9aB8EE', // goerli
     '534351': '0x92604A186DE35D9c1331596eE8d32c59f64A168F', // Scroll Sepolia
     '44787': '0xFD240b2a6Eb348F131Fb5C4d893eB5c8426B042c', // Cello Alfaro
@@ -37,7 +37,7 @@ export const StyledInput = styled.input`
   width: 23rem;
 `
 
-enum Steps {
+export enum Steps {
     hashInput = 'hashInput',
     descriptorFetching = 'descriptorFetching',
     descriptorFetched = 'descriptorFetched',

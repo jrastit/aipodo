@@ -5,6 +5,7 @@ import {useQuery} from "@apollo/client";
 import {SAccountsContainer, SContent} from "./components/app";
 import styled from "styled-components";
 import {useAccount, useNetwork} from "wagmi";
+import BuyButton from "./BuyButton.tsx";
 
 const SBorder = styled.div`
   border-radius: 8px;
@@ -84,19 +85,28 @@ const DatasetList: FunctionComponent = () => {
                             <th style={{
                                 border: '1px solid black',
                                 borderCollapse: 'collapse',
-                            }}>Git commit hash</th>
+                            }}>Git commit hash
+                            </th>
                             <th style={{
                                 border: '1px solid black',
                                 borderCollapse: 'collapse',
-                            }}>Parents</th>
+                            }}>Parents
+                            </th>
                             <th style={{
                                 border: '1px solid black',
                                 borderCollapse: 'collapse',
-                            }}>Price</th>
+                            }}>Price
+                            </th>
                             <th style={{
                                 border: '1px solid black',
                                 borderCollapse: 'collapse',
-                            }}>Owner</th>
+                            }}>Owner
+                            </th>
+                            <th style={{
+                                border: '1px solid black',
+                                borderCollapse: 'collapse',
+                            }}>...
+                            </th>
                         </tr>
                         {data.itemCreateds.map(({id, hash, parents, full_price, owner}) => {
                             console.log({owner, address});
@@ -121,6 +131,10 @@ const DatasetList: FunctionComponent = () => {
                                         border: '1px solid black',
                                         borderCollapse: 'collapse',
                                     }}>{owner?.toLowerCase() === address?.toLowerCase() ? 'You' : owner}</td>
+                                    <td style={{
+                                        border: '1px solid black',
+                                        borderCollapse: 'collapse',
+                                    }}><BuyButton commitHash={hash} price={full_price}/></td>
                                 </tr>
                             );
                         })}
