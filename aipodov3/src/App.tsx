@@ -28,12 +28,19 @@ function App() {
                     justifyContent: "space-between",
                 }}>
                     <img src="/logo.jpg"/>
+                    
                     <span style={{
                         padding: '20px 10px'
                     }}>
                              <GateFi/>
+                            
+                        </span>
+                    <span style={{
+                        padding: '20px 10px'
+                    }}>
                             <w3m-button/>
                         </span>
+                    
                 </div>
                 <div>
                     <Dataset/>
