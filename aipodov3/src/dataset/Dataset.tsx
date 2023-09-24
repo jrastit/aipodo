@@ -76,7 +76,7 @@ const Dataset: FunctionComponent = () => {
         if (step === Steps.hashInput) {
             const starting = Date.now();
             setStep(Steps.descriptorFetching);
-            const fakeHash = 'f7b0081d6bd0e009fd6f0a6a333fb2e7db30357a';
+            const fakeHash = undefined; // 7b0081d6bd0e009fd6f0a6a333fb2e7db30357a';
             const result = await fetch(`https://api.github.com/search/commits?q=${fakeHash ?? commitHash}`);
             if (result.ok) {
                 const parsedResult = await result.json();
