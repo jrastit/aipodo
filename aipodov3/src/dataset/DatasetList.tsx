@@ -8,6 +8,7 @@ import {useAccount, useNetwork} from "wagmi";
 import Address from "./components/Address.tsx";
 import Hash from "./components/Hash.tsx";
 import {Table} from "react-bootstrap"
+import BuyButton from "./BuyButton.tsx";
 
 const SBorder = styled.div`
   border-radius: 8px;
@@ -26,6 +27,12 @@ const datasetQuery = gql`
         parents
         owner
     }
+    itemBuys {
+        id
+        hash
+        buyer
+        price
+    }
 }
 `;
 
@@ -36,6 +43,13 @@ interface ItemCreated {
     full_price: string,
     owner: string,
 }
+
+export interface ItemBuy {
+    id: string,
+    hash: string,
+    buyer: string,
+}
+
 
 const urlPerChain: Record<string, string> = {
     '5': 'https://api.studio.thegraph.com/query/53641/aipodo-goerli-2/version/latest', // goerli
@@ -49,7 +63,7 @@ const DatasetList: FunctionComponent = () => {
     const {address} = useAccount();
     const {chain} = useNetwork();
 
-    const {data, loading, error, refetch, networkStatus} = useQuery<{ itemCreateds: ItemCreated[] }>(datasetQuery, {
+    const {data, loading, error, refetch, networkStatus} = useQuery<{ itemCreateds: ItemCreated[], itemBuys: ItemBuy[] }>(datasetQuery, {
         variables: {
             __chainUrl: urlPerChain[chain?.id ?? 'pouet'],
         },
@@ -90,6 +104,7 @@ const DatasetList: FunctionComponent = () => {
                                     <td>{parents.map((p) => (<><Hash hash={formatHash(p)}/><br/></>))}</td>
                                     <td>{full_price}</td>
                                     <td>{owner?.toLowerCase() === address?.toLowerCase() ? 'You' : <Address address={owner}/>} </td>
+                                    <td><BuyButton commitHash={hash} price={full_price} itemBuys={data.itemBuys}/></td>
                                 </tr>
                             );
                         })}
