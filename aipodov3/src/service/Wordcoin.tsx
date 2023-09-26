@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IDKitWidget, ISuccessResult, CredentialType } from "@worldcoin/idkit";
 import {FunctionComponent} from "react";
 import Button from "../dataset/components/Button";
-import {useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction} from "wagmi";
+import {useAccount, useContractWrite, useNetwork, usePrepareContractWrite} from "wagmi";
 import AipodoContract from '../../../smartcontract/artifacts/Aipodo.json';
 
 
@@ -33,9 +33,9 @@ const Worldcoin: FunctionComponent = () => {
 
   const {
     config,
-    error: prepareError,
-    isError: isPrepareError,
-    isLoading: isPrepareLoading,
+    error: _prepareError,
+    isError: _isPrepareError,
+    isLoading: _isPrepareLoading,
   } = usePrepareContractWrite({
     address: contractAddressPerChain[`${chain?.id}`],
     abi: AipodoContract.abi,
@@ -44,10 +44,10 @@ const Worldcoin: FunctionComponent = () => {
     enabled: true
   })
   const {
-    data,
-    error,
-    isLoading,
-    isError,
+    data: _data,
+    error: _error,
+    isLoading: _isLoading,
+    isError: _isError,
     write,
 
   } = useContractWrite(config)

@@ -2,11 +2,12 @@ import {createWeb3Modal, defaultWagmiConfig} from '@web3modal/wagmi/react'
 import {WagmiConfig} from 'wagmi'
 import {goerli, mainnet, scrollSepolia, celoAlfajores} from 'wagmi/chains'
 import DatasetCreate from "./dataset/DatasetCreate.tsx";
-import GateFi from './gatefi/Gatefi'
-import Worldcoin from './service/Wordcoin';
 import {ApolloClient, ApolloProvider, HttpLink, InMemoryCache} from "@apollo/client";
 import DatasetList from "./dataset/DatasetList.tsx";
-
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Navbar from 'react-bootstrap/Navbar';
 
 // 1. Get projectId
 const projectId = 'adad6ddb068edeb3c80dccb1bf3e4673'
@@ -27,41 +28,33 @@ const apolloClient = new ApolloClient({
 
 function App() {
     return (
+    <Container>
+        
         <ApolloProvider client={apolloClient}>
             <WagmiConfig config={wagmiConfig}>
-                <div style={{
-                    display: "flex",
-                    flexDirection: 'column',
-                }}>
-                    <div style={{
-                        display: "flex",
-                        flexDirection: 'row',
-                        justifyContent: "space-between",
-                    }}>
-                        <img src="/logo.jpg"/>
-
-                        <span style={{
-                            padding: '20px 10px'
-                        }}>
-                             <GateFi/>
-                            
-                        </span>
-                        <span style={{
-                            padding: '20px 10px'
-                        }}>
-                            <w3m-button/>
-                        </span>
-
-                    </div>
-                    <div>
-                        <DatasetList/>
-                        <p/>
-                        <DatasetCreate/>
-                        <Worldcoin/>
-                    </div>
-                </div>
+            <Navbar bg="light" className="justify-content-end">
+                <Container>
+                    <Navbar.Brand href="#home"><img src="/logo.jpg"/></Navbar.Brand>
+                    <Navbar.Text className='justify-content-end'><w3m-button/></Navbar.Text>        
+                </Container>            
+            </Navbar>    
+            
+            <Row>
+            <Col xs='6'>
+                
+            </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <DatasetList/>
+                </Col>
+                <Col>
+                    <DatasetCreate/>
+                </Col>
+            </Row>
             </WagmiConfig>
         </ApolloProvider>
+    </Container>
     )
 }
 

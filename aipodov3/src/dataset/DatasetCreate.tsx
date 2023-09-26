@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Loader from "./components/Loader";
 import {useAccount, useContractWrite, useNetwork, usePrepareContractWrite, useWaitForTransaction} from "wagmi";
 import AipodoContract from '../../../smartcontract/artifacts/Aipodo.json';
+import Form from 'react-bootstrap/Form';
+import Stack from 'react-bootstrap/Stack';
 
 
 const SBorder = styled.div`
@@ -58,7 +60,7 @@ const DatasetCreate: FunctionComponent = () => {
         config,
         error: prepareError,
         isError: isPrepareError,
-        isLoading: isPrepareLoading,
+        isLoading: _isPrepareLoading,
     } = usePrepareContractWrite({
         address: contractAddressPerChain[`${chain?.id}`],
         abi: AipodoContract.abi,
@@ -118,52 +120,64 @@ const DatasetCreate: FunctionComponent = () => {
         <SContent>
             <SBorder>
                 <SAccountsContainer>
+                    <Form>
                     <h3>Publish Dataset ownership</h3>
-                    <table>
-                        <tbody>
-                        <tr>
-                            <td>
-                                <StyledLabel>Dataset Git hash</StyledLabel>
-                            </td>
-                            <td>
-                                <StyledInput type="text" value={commitHash}
-                                             readOnly={step !== Steps.hashInput}
-                                             onChange={e => setCommitHash(e.target.value)}
-                                             onKeyUp={(e) => {
-                                                 if (e.key === 'Enter') {
-                                                     handleHashSubmit();
-                                                 }
-                                             }}/>
-                            </td>
-                        </tr>
-                        {step === Steps.descriptorFetching && (
-                            <tr>
-                                <td colSpan={2}>
-                                    <Loader/>
-                                </td>
-                            </tr>
+                    <Form.Group controlId="hash">
+                        <Form.Label>Dataset Git hash</Form.Label>
+                        <Form.Control 
+                            type="text" 
+                            placeholder="Paste git full hash" 
+                            value={commitHash}
+                            readOnly={step !== Steps.hashInput}
+                            onChange={e => setCommitHash(e.target.value)}
+                            />
+                        <Form.Text className="text-muted">
+                            copy and paste the full git hash of the dataset you want to publish
+                        </Form.Text>
+                    </Form.Group>
+                    <br/>
+                    { step === Steps.hashInput && commitHash && (
+                        <>
+                        <Stack gap={2} className="col-md-5 mx-auto">
+                            <Button onClick={handleHashSubmit}>Fetch github</Button>
+                        </Stack>
+                        <br/>
+                        </>
+                        )
+                        }   
+                    {step === Steps.descriptorFetching && (
+                            <Loader/>
                         )}
-                        {(step === Steps.descriptorFetched || step === Steps.publishing) && (
+                    {(step === Steps.descriptorFetched || step === Steps.publishing) && (
                             <>
-                                <tr>
-                                    <td>
-                                        <StyledLabel>Dataset parents</StyledLabel>
-                                    </td>
-                                    <td>
-                                        {parents.map((parent) => <>{parent}<br/></>)}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <StyledLabel>Dataset price</StyledLabel>
-                                    </td>
-                                    <td>
-                                        <StyledInput type="text" value={price}
-                                                     onChange={e => setPrice(e.target.value)}/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colSpan={2}>
+                                <Form.Group controlId="parents">
+                                    <Form.Label>Dataset parents Git hash</Form.Label>
+                                        {parents.map((parent) => <>
+                                            <Form.Control 
+                                                type="text" 
+                                                value={parent}
+                                                readOnly={true}
+                                            />
+                                        </>)}
+                                    <Form.Text className="text-muted">
+                                        Parents loaded from github project aipodo.json
+                                    </Form.Text>
+                                </Form.Group>
+                                <br/>
+                                <Form.Group controlId="price">
+                                    <Form.Label>Dataset price</Form.Label>
+                                    <Form.Control 
+                                        type="text" 
+                                        placeholder="Give your dataset a price for your work" 
+                                        value={price}
+                                        onChange={e => setPrice(e.target.value)}
+                                    />
+                                    <Form.Text className="text-muted">
+                                        copy and paste the full git hash of the dataset you want to publish
+                                    </Form.Text>
+                                </Form.Group>
+                                <br/>
+                                <Stack gap={2} className="mx-auto">
                                         {step !== Steps.publishing &&
                                             <Button onClick={handlePublish}>Publish dataset ownership</Button>}
                                         {(step === Steps.publishing && isLoading) && (
@@ -173,7 +187,7 @@ const DatasetCreate: FunctionComponent = () => {
                                             </>
                                         )}
                                         {(step === Steps.publishing && !isLoading && (isPrepareError || isError)) && (
-                                            <div>Error: {prepareError ? prepareError.shortMessage : error?.message}</div>
+                                            <div>Error: {prepareError ? (prepareError as any).shortMessage : error?.message}</div>
                                         )}
                                         {(step === Steps.publishing && !isLoading && !(isPrepareError || isError || isSuccess)) && (
                                             <>
@@ -184,20 +198,19 @@ const DatasetCreate: FunctionComponent = () => {
                                         {(step === Steps.publishing && !isLoading && isSuccess) && (
                                             <div>Dataset ownership transaction validated!</div>
                                         )}
-                                    </td>
-                                </tr>
+                                </Stack>
                             </>
                         )}
-                        </tbody>
-                    </table>
                     <br/>
-                    <button onClick={() => {
+                    <Stack gap={2} className="col-md-5 mx-auto">
+                    <Button onClick={() => {
                         setStep(Steps.hashInput);
                         setCommitHash('');
                         setParents([]);
                         setPrice('');
-                    }}>Reset
-                    </button>
+                    }}>Reset</Button>
+                    </Stack>
+                    </Form>
                 </SAccountsContainer>
             </SBorder>
         </SContent>

@@ -5,6 +5,9 @@ import {useQuery} from "@apollo/client";
 import {SAccountsContainer, SContent} from "./components/app";
 import styled from "styled-components";
 import {useAccount, useNetwork} from "wagmi";
+import Address from "./components/Address.tsx";
+import Hash from "./components/Hash.tsx";
+import {Table} from "react-bootstrap"
 
 const SBorder = styled.div`
   border-radius: 8px;
@@ -69,63 +72,29 @@ const DatasetList: FunctionComponent = () => {
         } else if (data) {
             return (
                 <>
-                    <table style={{
-                        border: '1px solid black',
-                        borderCollapse: 'collapse',
-                    }}>
-                        <tbody style={{
-                            border: '1px solid black',
-                            borderCollapse: 'collapse',
-                        }}>
-                        <tr style={{
-                            border: '1px solid black',
-                            borderCollapse: 'collapse',
-                        }}>
-                            <th style={{
-                                border: '1px solid black',
-                                borderCollapse: 'collapse',
-                            }}>Git commit hash</th>
-                            <th style={{
-                                border: '1px solid black',
-                                borderCollapse: 'collapse',
-                            }}>Parents</th>
-                            <th style={{
-                                border: '1px solid black',
-                                borderCollapse: 'collapse',
-                            }}>Price</th>
-                            <th style={{
-                                border: '1px solid black',
-                                borderCollapse: 'collapse',
-                            }}>Owner</th>
+                    <Table striped bordered hover align="right">
+                      <thead>
+                        <tr>
+                            <th>Git commit hash</th>
+                            <th>Parents</th>
+                            <th>Price</th>
+                            <th>Owner</th>
                         </tr>
+                    </thead>
+                    <tbody>
                         {data.itemCreateds.map(({id, hash, parents, full_price, owner}) => {
                             console.log({owner, address});
                             return (
-                                <tr key={id} style={{
-                                    border: '1px solid black',
-                                    borderCollapse: 'collapse',
-                                }}>
-                                    <td style={{
-                                        border: '1px solid black',
-                                        borderCollapse: 'collapse',
-                                    }}>{formatHash(hash)}</td>
-                                    <td style={{
-                                        border: '1px solid black',
-                                        borderCollapse: 'collapse',
-                                    }}>{parents.map((p) => (<>{formatHash(p)}<br/></>))}</td>
-                                    <td style={{
-                                        border: '1px solid black',
-                                        borderCollapse: 'collapse',
-                                    }}>{full_price}</td>
-                                    <td style={{
-                                        border: '1px solid black',
-                                        borderCollapse: 'collapse',
-                                    }}>{owner?.toLowerCase() === address?.toLowerCase() ? 'You' : owner}</td>
+                                <tr key={id}>
+                                    <td><Hash hash={formatHash(hash)}/></td>
+                                    <td>{parents.map((p) => (<><Hash hash={formatHash(p)}/><br/></>))}</td>
+                                    <td>{full_price}</td>
+                                    <td>{owner?.toLowerCase() === address?.toLowerCase() ? 'You' : <Address address={owner}/>} </td>
                                 </tr>
                             );
                         })}
                         </tbody>
-                    </table>
+                    </Table>
                     <br/>
                     <button onClick={() => refetch()}>Refresh</button>
                 </>
