@@ -22,7 +22,7 @@ const BuyButton: FunctionComponent<BuyButtonProps> = ({commitHash, price, itemBu
         config,
         error: prepareError,
         isError: isPrepareError,
-        isLoading: isPrepareLoading,
+        isLoading: _isPrepareLoading,
     } = usePrepareContractWrite({
         address: contractAddressPerChain[`${chain?.id}`],
         abi: AipodoContract.abi,
@@ -77,7 +77,7 @@ const BuyButton: FunctionComponent<BuyButtonProps> = ({commitHash, price, itemBu
                     </>
                 )}
                 {(buying && !isLoading && (isPrepareError || isError)) && (
-                    <div>Error: {prepareError ? prepareError.shortMessage : error?.message}</div>
+                    <div>Error: {prepareError ? (prepareError as any).shortMessage : error?.message}</div>
                 )}
                 {(buying && !isLoading && !(isPrepareError || isError || isSuccess)) && (
                     <>
